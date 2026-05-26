@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Tính toán BMI</title>
+</head>
+<body>
+    <h2>Tính toán chỉ số BMI (Fetch API)</h2>
+    <form id="bmiForm">
+        <input type="text" id="height" placeholder="Chiều cao (m)" required><br><br>
+        <input type="text" id="weight" placeholder="Cân nặng (kg)" required><br><br>
+        <button type="submit">Tính BMI</button>
+    </form>
+
+    <h3 id="result"></h3>
+
+    <script>
+        document.getElementById('bmiForm').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Ngăn form load lại trang theo kiểu truyền thống
+            
+            const h = document.getElementById('height').value;
+            const w = document.getElementById('weight').value;
+
+            // Gọi ngầm lên Server bằng Fetch
+            const response = await fetch(`http://localhost:3000/api/bmi?height=${h}&weight=${w}`);
+            const data = await response.json();
+
+            // Hiển thị kết quả trực tiếp lên màn hình
+            if(data.bmi) {
+                document.getElementById('result').innerText = `Chỉ số BMI của bạn là: ${data.bmi}`;
+            } else {
+                document.getElementById('result').innerText = `Có lỗi xảy ra!`;
+            }
+        });
+    </script>
+</body>
+</html>
